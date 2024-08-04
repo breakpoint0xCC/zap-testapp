@@ -1,0 +1,17 @@
+services:
+  app:
+    build: .
+    ports:
+      - "127.0.0.1:8080:8080"
+  zap:
+    image: zaproxy/zap-stable
+    depends_on:
+      - app
+    volumes:
+      - ./:/zap/wrk/
+    #
+    # -t (target)  - Pfad / URL zu OpenAPI spec / SOAP-Endpoint / API-URL
+    # -f (format)  - Format hinter target (openapi, soap, graphql)
+    # -a           - Alpha Scans ausführen
+    # -J /zap/wrk/report.json  - JSON-Report schreiben, Mount für /zap/wrk muss definiert werden
+    command: ./zap-api-scan.py -t http://app:8080/apidoc -f openapi -J /zap/wrk/report.json

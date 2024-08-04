@@ -1,0 +1,1 @@
+INSERT INTO examples (title, description) VALUES ('Bla', 'Bla bla bla');
